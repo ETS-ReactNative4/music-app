@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-nati
 import { Audio } from 'expo-av';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons'; 
+import Player from './components/Player';
 
 export default function App() {
   const [audio, setAudio] = useState(null);
@@ -16,6 +17,42 @@ export default function App() {
     {
       name: 'Killer Queen',
       artists: 'Queen',
+      playing: false,
+      file: require('./songs/music.mp3')
+    },
+    {
+      name: 'Stairway to Heaven',
+      artists: 'Led Zeppelin',
+      playing: false,
+      file: require('./songs/music.mp3')
+    },
+    {
+      name: 'Stairway to Heaven',
+      artists: 'Led Zeppelin',
+      playing: false,
+      file: require('./songs/music.mp3')
+    },
+    {
+      name: 'Stairway to Heaven',
+      artists: 'Led Zeppelin',
+      playing: false,
+      file: require('./songs/music.mp3')
+    },
+    {
+      name: 'Stairway to Heaven',
+      artists: 'Led Zeppelin',
+      playing: false,
+      file: require('./songs/music.mp3')
+    },
+    {
+      name: 'Stairway to Heaven',
+      artists: 'Led Zeppelin',
+      playing: false,
+      file: require('./songs/music.mp3')
+    },
+    {
+      name: 'Stairway to Heaven',
+      artists: 'Led Zeppelin',
       playing: false,
       file: require('./songs/music.mp3')
     },
@@ -52,15 +89,16 @@ export default function App() {
 
   return (
     <View style={{flex:1}}>
-    <ScrollView style={styles.container}>
-      <StatusBar hidden/>
-      <View style={styles.header}>
+    <View style={styles.header}>
         <Text style={{textAlign: 'center', color: '#fff', fontSize: 30}}>NightMusic</Text>
       </View>
+    <ScrollView style={styles.container}>
       <View style={styles.table}>
+        <Text style={styles.tableText}>#</Text>
         <Text style={styles.tableText}>Música</Text>
         <Text style={styles.tableText}>Artista</Text>
       </View>
+      <StatusBar hidden/>
       {
         songs.map((song, i) => {
           if(song.playing){
@@ -93,7 +131,9 @@ export default function App() {
         })
           
         }
+    <View style={{paddingBottom: 200}}></View>
     </ScrollView>
+    <Player/>
     </View>
   );
 }
@@ -117,7 +157,7 @@ const styles = StyleSheet.create({
   tableText:{
     paddingLeft: 5,
     color: '#fff', 
-    width: '50%',
+    width: '33.3%',
     fontSize:17
   },
   tableSong: {
