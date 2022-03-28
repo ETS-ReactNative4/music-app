@@ -6,6 +6,9 @@ import { Ionicons } from '@expo/vector-icons';
 import Player from './components/Player';
 
 export default function App() {
+
+  const [currentAudio, setCurrentAudio] = useState(0);
+  const [playing, setPlaying] = useState(false);
   const [audio, setAudio] = useState(null);
   const [songs, setSongs] = useState([
     {
@@ -25,43 +28,7 @@ export default function App() {
       artists: 'Led Zeppelin',
       playing: false,
       file: require('./songs/music.mp3')
-    },
-    {
-      name: 'Stairway to Heaven',
-      artists: 'Led Zeppelin',
-      playing: false,
-      file: require('./songs/music.mp3')
-    },
-    {
-      name: 'Stairway to Heaven',
-      artists: 'Led Zeppelin',
-      playing: false,
-      file: require('./songs/music.mp3')
-    },
-    {
-      name: 'Stairway to Heaven',
-      artists: 'Led Zeppelin',
-      playing: false,
-      file: require('./songs/music.mp3')
-    },
-    {
-      name: 'Stairway to Heaven',
-      artists: 'Led Zeppelin',
-      playing: false,
-      file: require('./songs/music.mp3')
-    },
-    {
-      name: 'Stairway to Heaven',
-      artists: 'Led Zeppelin',
-      playing: false,
-      file: require('./songs/music.mp3')
-    },
-    {
-      name: 'Stairway to Heaven',
-      artists: 'Led Zeppelin',
-      playing: false,
-      file: require('./songs/music.mp3')
-    },
+    }
   ]);
 
   const changeSong = async (id) => {
@@ -70,6 +37,8 @@ export default function App() {
       if(id === i){
         songs[i].playing = true;
         currentFile = songs[i].file;
+        setPlaying(true);
+        setCurrentAudio(id);
       }else{
         songs[i].playing = false;
       }
@@ -133,7 +102,14 @@ export default function App() {
         }
     <View style={{paddingBottom: 200}}></View>
     </ScrollView>
-    <Player/>
+    <Player playing={playing} 
+    setPlaying={setPlaying} 
+    currentAudio={currentAudio} 
+    songs={songs}
+    setSongs={setSongs}
+    audio={audio}
+    setAudio={setAudio}
+    />
     </View>
   );
 }
