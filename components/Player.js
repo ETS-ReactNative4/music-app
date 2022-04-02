@@ -1,9 +1,11 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { Audio } from 'expo-av';
 import { Ionicons } from '@expo/vector-icons'; 
 
 export default function Player({
   playing, 
   setPlaying,
+  setCurrentAudio,
   currentAudio,
   songs,
   setSongs,
@@ -50,16 +52,82 @@ export default function Player({
     setPlaying(false);
   }
 
+  const handleBack = async ()=> {
+    let newAudio = currentAudio - 1;
+    if(newAudio < 0){
+      newAudio = songs.length - 1;
+    }
+    let currentFile = songs[newAudio].file;
+    setCurrentAudio(newAudio);
+    
+    let newSong = songs.filter((song, i) => {
+      if(newAudio === i){
+        songs[i].playing = true;
+        currentFile = songs[i].file;
+      }else{
+        songs[i].playing = false;
+      }
+      return songs[i];
+    });
+
+    try{
+      if(audio != null){
+        await audio.unloadAsync();
+      }
+        let currentAudio = new Audio.Sound();
+        try{
+          await currentAudio.loadAsync(currentFile);
+          await currentAudio.playAsync();
+        }catch(err){}
+        setAudio(currentAudio);
+        setSongs(newSong);
+        setPlaying(true);
+    }catch(err){}
+  }
+
+  const handleNext = async ()=> {
+    let newAudio = currentAudio + 1;
+    if(newAudio >= songs.length){
+      newAudio = 0;
+    }
+    let currentFile = songs[newAudio].file;
+    setCurrentAudio(newAudio);
+    
+    let newSong = songs.filter((song, i) => {
+      if(newAudio === i){
+        songs[i].playing = true;
+        currentFile = songs[i].file;
+      }else{
+        songs[i].playing = false;
+      }
+      return songs[i];
+    });
+
+    try{
+      if(audio != null){
+        await audio.unloadAsync();
+      }
+        let currentAudio = new Audio.Sound();
+        try{
+          await currentAudio.loadAsync(currentFile);
+          await currentAudio.playAsync();
+        }catch(err){}
+        setAudio(currentAudio);
+        setSongs(newSong);
+        setPlaying(true);
+    }catch(err){}
+  }
+
   return(
     <View style={styles.playerContainer}>
-      <TouchableOpacity style={styles.playerBtn}><Ionicons name="play-back" size={35} color="white" /></TouchableOpacity>
+      <TouchableOpacity onPress={()=> handleBack()} style={styles.playerBtn}><Ionicons name="play-back" size={45} color="white" /></TouchableOpacity>
       {
       (!playing)?
-      <TouchableOpacity onPress={() => handlePlay()} style={styles.playerBtn}><Ionicons name="play-circle" size={35} color="white" /></TouchableOpacity>
+      <TouchableOpacity onPress={() => handlePlay()} style={styles.playerBtn}><Ionicons name="play-circle" size={45} color="white" /></TouchableOpacity>
       :
-      <TouchableOpacity onPress={() => handlePause()} style={styles.playerBtn}><Ionicons name="pause-circle" size={35} color="white" /></TouchableOpacity>
+      <TouchableOpacity onPress={() => handlePause()} style={styles.playerBtn}><Ionicons name="pause-circle" size={45} color="white" /></TouchableOpacity>
       }
-      <TouchableOpacity style={styles.playerBtn}><Ionicons name="play-forward" size={35} color="white" /></TouchableOpacity>
+      <TouchableOpacity onPress={()=> handleNext()} style={styles.playerBtn}><Ionicons name="play-forward" size={45} color="white" /></TouchableOpacity>
     </View>
   );
 };

@@ -1,33 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { LogBox, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Audio } from 'expo-av';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons'; 
 import Player from './components/Player';
 
 export default function App() {
+  LogBox.ignoreAllLogs(true);
 
   const [currentAudio, setCurrentAudio] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [audio, setAudio] = useState(null);
   const [songs, setSongs] = useState([
     {
-      name: 'Shine on You Crazy',
-      artists: 'Pink Floyd',
+      name: 'Smooth Criminal',
+      artists: 'Michael Jackson',
       playing: false,
-      file: require('./songs/music.mp3')
+      file: require('./songs/song.mp3')
     },
     {
       name: 'Killer Queen',
       artists: 'Queen',
       playing: false,
-      file: require('./songs/music.mp3')
+      file: require('./songs/song2.mp3')
     },
     {
-      name: 'Stairway to Heaven',
-      artists: 'Led Zeppelin',
+      name: 'Mac Miller',
+      artists: 'Self Care',
       playing: false,
-      file: require('./songs/music.mp3')
+      file: require('./songs/song3.mp3')
     }
   ]);
 
@@ -85,7 +86,7 @@ export default function App() {
             )
           }else{
             return(
-              <View  key={song.name} style={styles.table}>
+              <View key={song.name} style={styles.table}>
               <TouchableOpacity onPress={() => changeSong(i)} style={styles.tableSong}>
                 <Text style={{
                   marginRight:10
@@ -105,6 +106,7 @@ export default function App() {
     <Player playing={playing} 
     setPlaying={setPlaying} 
     currentAudio={currentAudio} 
+    setCurrentAudio={setCurrentAudio} 
     songs={songs}
     setSongs={setSongs}
     audio={audio}
